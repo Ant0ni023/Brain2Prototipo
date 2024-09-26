@@ -1,6 +1,6 @@
 PrototipoBrain2
-Descripción del proyecto
-Este prototipo permite cargar, guardar, mostrar y eliminar una imagen en el sistema. Actualmente, el sistema gestiona una imagen a la vez.
+
+El prototipo hasta ahora permite cargar, guardar, mostrar y eliminar una imagen en el sistema. Actualmente, el sistema gestiona una imagen a la vez.
 
 Funcionalidades principales:
 Cargar una imagen desde una ruta especificada.
