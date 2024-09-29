@@ -11,9 +11,9 @@ import java.util.Scanner;
 
 public class PrototipoBrain2App extends JPanel {
     private BufferedImage imagen;
-    private String formatoImagen; // Variable para guardar el formato de la imagen
+    private String formatoImagen;
 
-    // Constructor para cargar la imagen desde el archivo, o mostrar un mensaje si la ruta es null
+    // Constructor para cargar la imagen desde el archivo
     public PrototipoBrain2App(String rutaImagen) {
         if (rutaImagen != null) {
             cargarImagen(rutaImagen);
@@ -22,68 +22,23 @@ public class PrototipoBrain2App extends JPanel {
         }
     }
 
-    // Método encargado de cargar la imagen desde una ruta especificada
+    // Metodo para cargar la imagen
     public void cargarImagen(String rutaImagen) {
         try {
-            // Obtenemos el archivo desde la ruta especificada
             File archivoImagen = new File(rutaImagen);
-            if (!archivoImagen.exists()) { // Verificamos si el archivo existe
+            if (!archivoImagen.exists()) {
                 System.out.println("El archivo de la imagen no existe: " + archivoImagen.getAbsolutePath());
             } else {
-                // Cargamos la imagen en la variable 'imagen'
                 imagen = ImageIO.read(archivoImagen);
                 System.out.println("Imagen cargada correctamente.");
-                // Extraemos el formato de la imagen desde su nombre (extensión del archivo)
                 formatoImagen = rutaImagen.substring(rutaImagen.lastIndexOf(".") + 1);
             }
         } catch (IOException e) {
-            // Este bloque catch captura cualquier error al intentar cargar la imagen
             System.out.println("Error al cargar la imagen: " + e.getMessage());
         }
     }
 
-    // Método encargado de guardar la imagen en una carpeta designada por el usuario
-    public void guardarImagenEnCarpeta(String nombreCarpeta, String nombreArchivo) {
-        try {
-            // Crear la carpeta si no existe
-            File carpeta = new File(nombreCarpeta);
-            boolean creada = carpeta.mkdirs(); // Verificamos si la carpeta fue creada
-            if (creada) {
-                System.out.println("Carpeta creada exitosamente.");
-            } else {
-                System.out.println("No se pudo crear la carpeta o ya existía.");
-            }
-            // Verificamos si hay una imagen cargada antes de intentar guardarla
-            if (imagen != null) {
-                File archivoSalida = new File(carpeta, nombreArchivo + "." + formatoImagen);
-                ImageIO.write(imagen, formatoImagen, archivoSalida);
-                System.out.println("Imagen guardada correctamente en: " + archivoSalida.getAbsolutePath());
-            } else {
-                System.out.println("No hay imagen cargada para guardar.");
-            }
-        } catch (IOException e) {
-            // Este bloque catch captura cualquier error que pueda ocurrir al intentar guardar la imagen
-            System.out.println("Error al guardar la imagen: " + e.getMessage());
-        }
-    }
-
-    // Método para eliminar la imagen guardada
-    public void eliminarImagen(String nombreCarpeta, String nombreArchivo) {
-        // Verificamos si la imagen cargada y la carpeta existen
-        File archivo = new File(nombreCarpeta, nombreArchivo + "." + formatoImagen);
-        if (archivo.exists()) {
-            boolean eliminado = archivo.delete(); // Intentamos eliminar el archivo
-            if (eliminado) {
-                System.out.println("Imagen eliminada correctamente.");
-            } else {
-                System.out.println("No se pudo eliminar la imagen.");
-            }
-        } else {
-            System.out.println("La imagen no existe.");
-        }
-    }
-
-    // Mostrar la imagen cargada en una ventana
+    // Mostrar la imagen en una ventana
     public static void mostrarImagenEnVentana(PrototipoBrain2App panel) {
         JFrame ventana = new JFrame("Imagen cargada");
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -92,93 +47,109 @@ public class PrototipoBrain2App extends JPanel {
         ventana.setVisible(true);
     }
 
-    // Método para dibujar la imagen
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (imagen != null) {
-            // Dibujamos la imagen en el panel si está cargada
             g.drawImage(imagen, 0, 0, this);
         }
     }
 
-    // Método para obtener la imagen cargada
-    public BufferedImage getImagen() {
-        return this.imagen;
-    }
-
-    // Método para mostrar el menú al usuario
-    public static void mostrarMenu() {
-        System.out.println("Menú:");
-        System.out.println("1. Cargar imagen");
-        System.out.println("2. Guardar imagen");
-        System.out.println("3. Mostrar imagen");
-        System.out.println("4. Eliminar imagen");
-        System.out.println("5. Salir");
-    }
-
-    // Método para obtener la opción del menú
-    public static int obtenerOpcionMenu(Scanner scanner) {
-        System.out.println("Seleccione una opción:");
-        return Integer.parseInt(scanner.nextLine());
-    }
-
-    // Método principal para gestionar el flujo del programa
-    public static void main(String[] args) {
+    // Métodos para login (mantenidos del sistema anterior)
+    public static void setUp() {
+        String[] users = {"Alex", "Antonio", "Antonia"};
+        String[] passwords = {"Rojas_ufromail", "Acuna_ufromail", "Cordova_ufromail"};
         Scanner scanner = new Scanner(System.in);
-        PrototipoBrain2App app = null; // Inicializamos la aplicación sin imagen
-        String nombreCarpeta = "imagenes";
-        String nombreArchivo = "imagenGuardada";
-        int opcion;
 
-        do {
-            // Mostramos el menú al usuario
-            mostrarMenu();
-            // Obtenemos la opción seleccionada por el usuario
-            opcion = obtenerOpcionMenu(scanner);
+        if (run(users, passwords, scanner)) {
+            System.out.println("¡Bienvenido! Ahora puedes cargar imágenes.");
+            mostrarMenuImagenes(scanner); // Mostrar opciones de imágenes después del login
+        } else {
+            System.out.println("Autenticación fallida.");
+        }
 
-            // Evaluamos la opción seleccionada por el usuario
+        scanner.close();
+    }
+
+    public static boolean run(String[] users, String[] passwords, Scanner scanner) {
+        System.out.println("Ingrese su nombre de usuario:");
+        String user = scanner.nextLine();
+
+        if (!validateUser(users, user)) {
+            System.out.println("Usuario " + user + " no encontrado");
+            return false;
+        }
+
+        int index = getIndex(users, user);
+        System.out.println("Ingrese su contraseña:");
+        String password = scanner.nextLine();
+
+        if (!validateCredentials(passwords, index, password)) {
+            System.out.println("Contraseña incorrecta para el usuario " + user);
+            return false;
+        }
+
+        System.out.println("Contraseña correcta. Bienvenido " + user);
+        return true;
+    }
+
+    public static boolean validateUser(String[] usersArr, String user) {
+        for (String u : usersArr) {
+            if (u.equals(user)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int getIndex(String[] arr, String value) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].equals(value)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static boolean validateCredentials(String[] passwordsArr, int index, String password) {
+        return passwordsArr[index].equals(password);
+    }
+
+    // Mostrar menú para manejo de imágenes
+    public static void mostrarMenuImagenes(Scanner scanner) {
+        PrototipoBrain2App app = null;
+
+        while (true) {
+            System.out.println("Menú de imágenes:");
+            System.out.println("1. Cargar imagen");
+            System.out.println("2. Mostrar imagen");
+            System.out.println("3. Salir");
+
+            int opcion = Integer.parseInt(scanner.nextLine());
+
             switch (opcion) {
                 case 1:
-                    // Cargar imagen
                     System.out.println("Ingrese la ruta de la imagen a cargar:");
                     String rutaImagen = scanner.nextLine();
-                    app = new PrototipoBrain2App(rutaImagen); // Creamos una nueva instancia con la imagen cargada
+                    app = new PrototipoBrain2App(rutaImagen);
                     break;
                 case 2:
-                    // Guardar imagen
-                    if (app != null) {
-                        app.guardarImagenEnCarpeta(nombreCarpeta, nombreArchivo); // Guardamos la imagen
+                    if (app != null && app.imagen != null) {
+                        mostrarImagenEnVentana(app);
                     } else {
                         System.out.println("Primero debe cargar una imagen.");
                     }
                     break;
                 case 3:
-                    // Mostrar imagen
-                    if (app != null && app.getImagen() != null) {
-                        mostrarImagenEnVentana(app); // Mostramos la imagen si está cargada
-                    } else {
-                        System.out.println("Primero debe cargar una imagen.");
-                    }
-                    break;
-                case 4:
-                    // Eliminar imagen
-                    if (app != null && app.getImagen() != null) {
-                        app.eliminarImagen(nombreCarpeta, nombreArchivo); // Eliminamos la imagen guardada
-                    } else {
-                        System.out.println("Primero debe cargar una imagen.");
-                    }
-                    break;
-                case 5:
-                    // Salir
                     System.out.println("Saliendo...");
-                    break;
+                    return;
                 default:
                     System.out.println("Opción no válida.");
-                    break;
             }
-        } while (opcion != 5); // Repetimos hasta que el usuario elija la opción de salir
+        }
+    }
 
-        scanner.close(); // Cerramos el scanner al finalizar el programa
+    public static void main(String[] args) {
+        setUp(); // Iniciar sistema de login y luego manejo de imágenes
     }
 }

@@ -1,3 +1,4 @@
+/*
 package test.java;
 
 import main.java.PrototipoBrain2App;
@@ -38,3 +39,5 @@ public class PrototipoBrain2AppTest {
         assertNull(app.getImagen(), "No debe guardarse ninguna imagen si no hay imagen cargada.");
     }
 }
+
+ */
