@@ -1,12 +1,12 @@
-PrototipoBrain2
+# PrototipoBrain2
 
 El prototipo hasta ahora permite cargar, guardar, mostrar y eliminar una imagen en el sistema. Actualmente, el sistema gestiona una imagen a la vez.
 
 Funcionalidades principales:
-Cargar una imagen desde una ruta especificada.
-Guardar la imagen en una carpeta designada.
-Mostrar la imagen cargada en una ventana.
-Eliminar la imagen guardada del sistema.
+- Cargar una imagen desde una ruta especificada.
+- Guardar la imagen en una carpeta designada.
+- Mostrar la imagen cargada en una ventana.
+- Eliminar una imagen guardada en el sistema.
 
 
 
@@ -16,7 +16,10 @@ src/main/java/main/java/PrototipoBrain2App.java
 
 
 
-Las pruebas unitarias fueron creadas utilizando JUnit 5, sin la integración de Maven ni Gradle. Estas pruebas verifican el correcto funcionamiento del sistema, y están diseñadas para no depender de rutas de imágenes específicas, lo que asegura su ejecución en diferentes entornos.0
+En esta primera versión del código hemos creada tres pruebas unitarias utilizando JUnit 5, sin la integración de Maven ni Gradle. Estas pruebas están diseñadas para no depender de rutas de imágenes específicas, lo que asegura su ejecución en diferentes entornos.
+1. Asegura que la aplicación maneje adecuadamente rutas no válidas.
+2.  Verifica que no se guarde ninguna imagen si no se ha cargado una previamente.
+3. Asegura que el formato de la imagen se detecta correctamente a partir del nombre del archivo.
 
 
 
