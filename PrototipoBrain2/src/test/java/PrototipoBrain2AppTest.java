@@ -37,4 +37,14 @@ public class PrototipoBrain2AppTest {
         // Verificamos que no se guarda ninguna imagen
         assertNull(app.getImagen(), "No debe guardarse ninguna imagen si no hay imagen cargada.");
     }
+
+    @Test
+    public void testFormatoImagen() {
+        // Probar si recibe el formato de imagen correcto
+        PrototipoBrain2App app = new PrototipoBrain2App("ruta/imagenDePrueba.jpg");
+
+        // Verifica que el formato sea el correcto
+        String formatoEsperado = "jpg";
+        assertEquals("El formato de la imagen debería ser JPG", formatoEsperado, app.formatoImagen);
+    }
 }

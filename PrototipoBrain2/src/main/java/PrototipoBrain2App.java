@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class PrototipoBrain2App extends JPanel {
     private BufferedImage imagen;
-    private String formatoImagen; // Variable para guardar el formato de la imagen
+    public String formatoImagen; // Variable para guardar el formato de la imagen
 
     // Constructor para cargar la imagen desde el archivo, o mostrar un mensaje si la ruta es null
     public PrototipoBrain2App(String rutaImagen) {
