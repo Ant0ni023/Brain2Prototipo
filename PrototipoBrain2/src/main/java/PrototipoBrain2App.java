@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.util.Scanner;
 
+
+//Clase que hasta este momento era la unica que habia y que se encargaba de todo.
 public class PrototipoBrain2App extends JPanel {
     private BufferedImage imagen;
     private String formatoImagen; // Variable para guardar el formato de la imagen
